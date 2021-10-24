@@ -34,7 +34,7 @@ def modelVdV(y,t,Q,Tk,Tin,CAin): #Tk in °C, Tin in °C, Q in L/h, CAin in molA/
 
 def stepVdV(deltaT,s,Q,Tk,Tin,CAin,a,FBSP):
 
-    if (Q + a[0]) < 200 or (Tk + a[1]) < 20:
+    if (Q + a[0]) < 200 or (Tk + a[1]) < 20 or (Q + a[0]) > 2000 or (Tk + a[1]) > 700:
         terminal = 1
     else:
         terminal = 0
@@ -54,21 +54,20 @@ def stepVdV(deltaT,s,Q,Tk,Tin,CAin,a,FBSP):
     return s2, r, terminal
 
 def reward(FBSP, Q, a, CB, CB2):
-    # r = 1 / 2000 / math.sqrt(2 * math.pi) * \
-    r = 1000 * \
-    (CB2 * math.exp(-0.5 * (((Q + a[0]) *CB2 - FBSP) / 1000) ** 2) -\
-    CB * math.exp(-0.5 * ((Q * CB - FBSP) / 1000) ** 2) )
 
-    return r
+    X_T_1 = np.array([(Q + a[0]) *CB2, CB2])
 
-def reward_FBSP(FBSP, Q, a, CB, CB2):
-    r= np.abs(Q *CB - FBSP) - np.abs((Q + a[0]) *CB2 - FBSP)
+    X_SP = np.array([FBSP, CBMAX])
 
-    return r
+    U = np.array([[1.0, 0],[0, 1.0]])
 
-def reward_FB_then_Cb(FBSP, Q, a, CB, CB2):
-    r= np.abs(Q *CB - FBSP) - np.abs((Q + a[0]) *CB2 - FBSP) +\
-        (CB2 - CB)*(1 - 1/(1 + math.exp(-100* (np.abs((Q + a[0]) *CB2 - FBSP )/FBSP - 0.5 ) ) ) )*100 / CB
+    A_T = np.array([a[0], a[1]])
+
+    D = np.array([[1.0, 0],[0, 1.0]])
+
+    X_D = np.abs((np.array([0.5e-4, 1.0]) * X_T_1) - (np.array([0.5e-4, 1.0]) * X_SP))
+
+    r = (X_D.T @ U @ X_D) + (A_T.T @ D @ A_T)
 
     return r
 
