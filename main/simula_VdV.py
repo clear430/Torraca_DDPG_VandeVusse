@@ -70,6 +70,8 @@ def reward(FBSP, Q, a, CB, CB2):
     X_R = (X_D.T @ U @ X_D) + (A_T.T @ D @ A_T)
 
     r = 1/X_R
+    
+    return r
 
 
 
