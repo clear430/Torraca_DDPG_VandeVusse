@@ -34,7 +34,7 @@ def modelVdV(y,t,Q,Tk,Tin,CAin): #Tk in °C, Tin in °C, Q in L/h, CAin in molA/
 
 def stepVdV(deltaT,s,Q,Tk,Tin,CAin,a,FBSP):
 
-    if (Q + a[0]) < 200 or (Tk + a[1]) < 20:
+    if ((Q + a[0]) < 200 or (Tk + a[1]) < 20 or (Q + a[0]) > 2000 or (Tk + a[1]) > 700):
         terminal = 1
     else:
         terminal = 0
@@ -63,11 +63,13 @@ def reward(FBSP, Q, a, CB, CB2):
 
     A_T = np.array([a[0], a[1]])
 
-    D = np.array([[1.0, 0],[0, 1.0e2]])
+    D = np.array([[1.0, 0],[0, 1.0]])
 
     X_D = (np.array([0.5e-3, 1.0]) * X_T_1) - (np.array([0.5e-3, 1.0]) * X_SP)
 
-    r = (X_D.T @ U @ X_D) + (A_T.T @ D @ A_T)
+    X_R = (X_D.T @ U @ X_D) + (A_T.T @ D @ A_T)
+
+    r = 1/X_R
 
 
 
