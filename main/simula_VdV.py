@@ -34,7 +34,7 @@ def modelVdV(y,t,Q,Tk,Tin,CAin): #Tk in °C, Tin in °C, Q in L/h, CAin in molA/
 
 def stepVdV(deltaT,s,Q,Tk,Tin,CAin,a,FBSP):
 
-    if ((Q + a[0]) < 200 or (Tk + a[1]) < 20 or (Q + a[0]) > 1750 or (Tk + a[1]) > 500):
+    if (Q + a[0]) < 200 or (Tk + a[1]) < 20 or (Q + a[0]) > 1750 or (Tk + a[1]) > 500:
         terminal = 1
     else:
         terminal = 0
