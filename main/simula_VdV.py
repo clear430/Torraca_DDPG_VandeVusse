@@ -59,9 +59,9 @@ def reward(FBSP, Q, a, CB, CB2):
 
     X_SP = np.array([FBSP, CBMAX])
 
-    U = np.array([[10.0, 0],[0, 1.0]])
+    U = np.array([[1.0, 0],[0, 1.0]])
 
-    A_T = np.array([a[0], a[1]])
+    A_T = np.array([1.0e-2 * a[0], a[1]])
 
     D = np.array([[1.0, 0],[0, 1.0]])
 
