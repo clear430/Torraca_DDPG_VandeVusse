@@ -55,7 +55,7 @@ def stepVdV(deltaT,s,Q,Tk,Tin,CAin,a,FBSP):
 
 def reward(FBSP, Q, a, CB, CB2):
 
-    X_T_1 = np.array([Q * CB, CB])
+    X_T_1 = np.array([(Q + a[0]) *CB2, CB2])
 
     X_SP = np.array([FBSP, CBMAX])
 
@@ -69,7 +69,7 @@ def reward(FBSP, Q, a, CB, CB2):
 
     X_R = (X_D.T @ U @ X_D) + (A_T.T @ D @ A_T)
 
-    r = 1/X_R
+    r = math.exp(-X_R)
 
     return r
 
