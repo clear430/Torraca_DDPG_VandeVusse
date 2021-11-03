@@ -65,7 +65,7 @@ def reward(FBSP, Q, a, CB, CB2):
 
     D = np.array([[1.0, 0],[0, 1.0]])
 
-    X_D = (np.array([0.8e-5, 1.0]) * X_T_1) - (np.array([0.8e-5, 1.0]) * X_SP)
+    X_D = (np.array([0.9e-5, 1.0]) * X_T_1) - (np.array([0.9e-5, 1.0]) * X_SP)
 
     X_R = (X_D.T @ U @ X_D) + (A_T.T @ D @ A_T)
 
